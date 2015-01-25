@@ -11,6 +11,7 @@ public class P5_DecimalToHexadecimal {
 		int num = in.nextInt();
 		
 		String hex = Integer.toHexString(num);
+		hex = hex.toUpperCase();
 		System.out.println("The hexadecimal value of the number is " + hex);
 				
 		in.close();
