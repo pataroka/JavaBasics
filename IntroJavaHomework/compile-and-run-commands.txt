@@ -1,0 +1,5 @@
+cd workspace/IntroJavaHomework/src
+javac P6_SumTwoNumbers.java
+java P6_SumTwoNumbers
+
+This is just a svn test
