@@ -8,6 +8,7 @@ public class P6_FormattingNumbers {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println("Enter a:");
+		
 		int a = in.nextInt();
 		
 		System.out.println("Enter b:");
