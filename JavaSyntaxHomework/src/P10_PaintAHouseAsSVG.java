@@ -24,6 +24,9 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 
+//download batik library from http://apache.cbox.biz/xmlgraphics/batik/batik-1.7.zip
+//extract binaries to project's lib folder and add batik.jar to build path
+
 public class P10_PaintAHouseAsSVG extends JPanel {
 	
 	/**
