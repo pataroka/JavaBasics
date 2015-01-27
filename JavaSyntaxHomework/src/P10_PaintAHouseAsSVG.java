@@ -26,6 +26,10 @@ import org.w3c.dom.Document;
 
 public class P10_PaintAHouseAsSVG extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1177573741895841271L;
 	public static int n;
 	
 	public P10_PaintAHouseAsSVG(ArrayList<String> inputCoordinates){
@@ -173,6 +177,7 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		
 		System.out.println("Enter the number of points you want to check:");
 		n = in.nextInt();
+		@SuppressWarnings("unused")
 		String ignoredLine = in.nextLine();
 		System.out.println("Enter the x and y coordinates of each point on a seperate line:");
 		
