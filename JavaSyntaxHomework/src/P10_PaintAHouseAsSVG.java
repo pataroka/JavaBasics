@@ -1,5 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -40,7 +41,7 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		this.setBackground(Color.WHITE);
 		
 		Graphics2D g2 = (Graphics2D) g;
-		int scale = 40;
+		int scale = 35;
 		
 		g2.setStroke(new BasicStroke(3f));
 		//draw left side of the house
@@ -50,7 +51,7 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		g2.setPaint(Color.BLUE);
 		g2.draw(leftWall);
 		//draw right side of the house
-		Shape rightWall = new Rectangle2D.Double(12.5*scale, 8.5*scale, 5*scale, 5*scale);
+		Shape rightWall = new Rectangle2D.Double(20*scale, 8.5*scale, 2.5*scale, 5*scale);
 		g2.setPaint(houseColor);
 		g2.fill(rightWall);
 		g2.setPaint(Color.BLUE);
@@ -68,7 +69,7 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		//set line shape and color of the coordinate system
 		float[] dash = {2f, 3f};
 		g.setColor(Color.CYAN);
-		BasicStroke bs = new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10f, dash, 0f);
+		BasicStroke bs = new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f, dash, 0f);
 		g2.setStroke(bs);
 		//draw the coordinate system
 		double xx1 = 9, yx1 = 10;
@@ -76,47 +77,50 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		double xy1 = 3.5, yy1 = 2;
 		double xy2 = 3.5, yy2 = 17;
 		double c = 2.5;
-		Shape xLine = new Line2D.Double(xx1*scale, xy1*scale, xx2*scale, xy2*scale);
-		Shape yLine = new Line2D.Double(yx1*scale, yy1*scale, yx2*scale, yy2*scale);
 		
 		for (int i = 0; i < 6; i++){
+			Shape xLine = new Line2D.Double(xx1*scale, xy1*scale, xx2*scale, xy2*scale);
+			Shape yLine = new Line2D.Double(yx1*scale, yy1*scale, yx2*scale, yy2*scale);
 			g2.draw(xLine);
 			g2.draw(yLine);
-			xx1 = xx1 + c;
-			xx2 = xx2 + c;			
-			yy1 = yy1 + c;
-			yy2 = yy2 + c;
+			xy1 = xy1 + c;
+			xy2 = xy2 + c;			
+			yx1 = yx1 + c;
+			yx2 = yx2 + c;
 		}
 		//set font of coordinates
 		g2.setColor(Color.BLACK);
-		g2.setFont(new Font("Arial", Font.PLAIN, scale));
+		g2.setFont(new Font("Arial", Font.PLAIN, 3*scale/4));
 		//draw coordinates
 		float x = 9.5f;
-		float y = 3.5f;
+		float y = 3.75f;
 		String[] coordsX = {"10", "12.5", "15", "17.5", "20", "22.5"};
 		String[] coordsY = {"3.5", "6", "8.5", "11", "13.5", "16"};
 		
 		for (int i = 0; i < 6; i++){			
 			g2.drawString(coordsX[i], x*scale, 1.5f*scale);
-			g2.drawString(coordsY[i], x*scale, 1.5f*scale);
+			g2.drawString(coordsY[i], 7.5f*scale, y*scale);
 			x = x + 2.5f;
 			y = y + 2.5f;
 		}
 		
+		//draw a trademark :)
+		g2.setColor(Color.DARK_GRAY);
+		g2.setFont(new Font("Arial", Font.PLAIN, scale/4));
+		
+		String trademark = "Created by pataroka, 2015";
+		g2.drawString(trademark, 0.5f*scale, 0.5f*scale);
+		
 		g2.setStroke(new BasicStroke(2f));
 		
 		for (String string : inputCoordinatesArrayList){
-//			if (string.equals("stop")){
-//				break;
-//			}
 			
 			String[] posPoint = string.split(" ");
 			double pointX = Double.parseDouble(posPoint[0]);
 			double pointY = Double.parseDouble(posPoint[1]);
-			
 			String positionPoint = pointsInsideTheHouse(string);
 			
-			Shape point = new Ellipse2D.Double(pointX*scale, pointY*scale, scale/2, scale/2);
+			Shape point = new Ellipse2D.Double(pointX*scale, pointY*scale, scale/3, scale/3);
 			
 			if (positionPoint.equals("Inside")){
 				g2.setPaint(Color.BLACK);
@@ -169,6 +173,7 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		
 		System.out.println("Enter the number of points you want to check:");
 		n = in.nextInt();
+		String ignoredLine = in.nextLine();
 		System.out.println("Enter the x and y coordinates of each point on a seperate line:");
 		
 		for (int i = 0; i < n; i++){
@@ -180,8 +185,12 @@ public class P10_PaintAHouseAsSVG extends JPanel {
 		
 		P10_PaintAHouseAsSVG paintHouse = new P10_PaintAHouseAsSVG(inputCoordinates);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
-		Document doc = domImpl.createDocument(null, "html", null);
+		String svgNS = "http://www.w3.org/2000/svg";
+		Document doc = domImpl.createDocument(svgNS, "html", null);
 		SVGGraphics2D svg = new SVGGraphics2D(doc);
+		
+		Dimension size = new Dimension(1000,1000);
+		svg.setSVGCanvasSize(size);
 		paintHouse.paintComponent(svg);
 		svg.stream(new FileWriter("house.html"), false);
 	}
