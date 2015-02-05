@@ -15,11 +15,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class P11_Excel {
 
-    public static void main(String[] args) throws IOException {
+    @SuppressWarnings("resource")
+	public static void main(String[] args) throws IOException {
 
 	Locale.setDefault(Locale.ROOT);
 	try (FileInputStream input = new FileInputStream("assets/Incomes-Report.xlsx")) {
-	    XSSFWorkbook workbook = new XSSFWorkbook(input);
+		XSSFWorkbook workbook = new XSSFWorkbook(input);
 	    XSSFSheet sheet = workbook.getSheetAt(0);
 	    ArrayList<Office> offices = new ArrayList<>();
 	    for (int i = 1; i < 12; i++) {
